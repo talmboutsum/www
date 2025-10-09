@@ -3,243 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.7;
-            color: #000;
-            background: #fff;
-            overflow-y: scroll;
-        }
-
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 100px 30px;
-        }
-
-        header {
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin-bottom: 40px;
-        }
-
-        nav a {
-            color: #666;
-            text-decoration: none;
-            margin-right: 20px;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #000;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .about {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 120px;
-            line-height: 1.8;
-            max-width: 600px;
-        }
-
-        .about p {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 60px;
-        }
-
-        .project {
-            margin-bottom: 60px;
-        }
-
-        h3 {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .meta {
-            font-size: 0.85rem;
-            color: #999;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-
-        a.link {
-            color: #000;
-            text-decoration: none;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #000;
-        }
-
-        footer {
-            margin-top: 150px;
-            padding-top: 30px;
-            border-top: 1px solid #f0f0f0;
-            font-size: 0.85rem;
-            color: #999;
-        }
-
-        footer a {
-            color: #666;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        footer a:hover {
-            color: #000;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 60px 20px;
-            }
-
-            nav a {
-                display: block;
-                margin-bottom: 8px;
-            }
-        }
-    </style>
+    <title>pita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.0/marked.min.js"></script>
 </head>
-<body>
+<body data-theme="light">
     <div class="container">
-        <header>
-            <h1>Pita</h1>
-            <nav>
-                <a href="#" data-page="home" class="active">Home</a>
-                <a href="#" data-page="projects">Projects</a>
-            </nav>
-        </header>
-
-        <div id="home" class="page active">
-            <div class="about">
-                <p>I'm Pita, a 16-year-old developer passionate about programming, especially interested in low-level programming.</p>
-            </div>
-
-            <h2>Featured</h2>
-            
-            <div class="project">
-                <h3>Project One</h3>
-                <p class="meta">2024</p>
-                <p>A brief description of what you built and why it matters.</p>
-                <a href="#" class="link">View →</a>
-            </div>
-
-            <div class="project">
-                <h3>Project Two</h3>
-                <p class="meta">2023</p>
-                <p>Another featured project with a short description.</p>
-                <a href="#" class="link">View →</a>
-            </div>
-
-            <div class="project">
-                <h3>Project Three</h3>
-                <p class="meta">2023</p>
-                <p>A third featured project highlighting your work.</p>
-                <a href="#" class="link">View →</a>
+        <div class="header">
+            <div class="logo">pita</div>
+            <div class="nav-wrapper">
+                <div class="nav-links">
+                    <button class="nav-btn active" data-tab="home">home</button>
+                    <button class="nav-btn" data-tab="projects">projects</button>
+                    <button class="nav-btn" data-tab="blog">writings</button>
+                </div>
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div id="projects" class="page">
-            <h2>All Projects</h2>
-            
-            <div class="project">
-                <h3>Project Title One</h3>
-                <p class="meta">2024</p>
-                <p>Description of your project, what you built and the impact it had.</p>
-                <a href="#" class="link">View →</a>
+        <main>
+            <div class="tab-content active" id="home">
+                <div class="hero">
+                    <p>i am a 16 year old who is passionate about development, especially the low level stuff</p>
+                </div>
+
+                <div class="section">
+                    <h2>featured projects</h2>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <h3>example project</h3>
+                            <p>project description will go here</p>
+                            <a href="#" class="project-link">view on github →</a>
+                        </div>
+                        <div class="project-card">
+                            <h3>example project</h3>
+                            <p>project description will go here</p>
+                            <a href="#" class="project-link">view on github →</a>
+                        </div>
+                        <div class="project-card">
+                            <h3>example project</h3>
+                            <p>project description will go here</p>
+                            <a href="#" class="project-link">view on github →</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="project">
-                <h3>Project Title Two</h3>
-                <p class="meta">2024</p>
-                <p>Another project with details about your role and outcomes.</p>
-                <a href="#" class="link">View →</a>
+            <div class="tab-content" id="projects">
+                <h1>all projects</h1>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>example project</h3>
+                        <p>project description will go here</p>
+                        <a href="#" class="project-link">view on github →</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="project">
-                <h3>Project Title Three</h3>
-                <p class="meta">2023</p>
-                <p>Description of what you built and why it matters.</p>
-                <a href="#" class="link">View →</a>
-            </div>
+            <div class="tab-content" id="blog">
+                <div class="blog-list-view">
+                    <h1>writings</h1>
+                    <div class="blog-list" id="blog-list-container">
+                    </div>
+                </div>
 
-            <div class="project">
-                <h3>Project Title Four</h3>
-                <p class="meta">2023</p>
-                <p>Another project showcasing your skills and approach.</p>
-                <a href="#" class="link">View →</a>
+                <div id="blog-posts-container">
+                </div>
             </div>
-
-            <div class="project">
-                <h3>Project Title Five</h3>
-                <p class="meta">2022</p>
-                <p>A project with a brief explanation of the problem and solution.</p>
-                <a href="#" class="link">View →</a>
-            </div>
-
-            <div class="project">
-                <h3>Project Title Six</h3>
-                <p class="meta">2022</p>
-                <p>Description of your work and what you achieved.</p>
-                <a href="#" class="link">View →</a>
-            </div>
-        </div>
-
-        <footer>
-            <a href="https://github.com/talmboutsum">GitHub</a>
-        </footer>
+        </main>
     </div>
 
+    <script src="blog-posts.js"></script>
+
     <script>
-        // Navigation
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const page = link.getAttribute('data-page');
-                
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById(page).classList.add('active');
-                
-                document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
+        // Theme toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+        });
+
+        // Tab navigation
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.getAttribute('data-tab');
+
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                document.getElementById(tabName).classList.add('active');
+
+                // Reset blog view when switching tabs
+                if (tabName === 'blog') {
+                    document.querySelector('.blog-list-view').style.display = 'block';
+                    // We now select dynamically generated posts
+                    document.querySelectorAll('#blog-posts-container .blog-post').forEach(post => {
+                        post.classList.remove('active');
+                    });
+                }
+            });
+        });
+
+        // --- Dynamic Blog Post Generation ---
+        const blogListContainer = document.getElementById('blog-list-container');
+        const blogPostsContainer = document.getElementById('blog-posts-container');
+
+        function generateBlogPosts() {
+            Object.keys(blogPosts).forEach(postId => {
+                const postData = blogPosts[postId];
+
+                // 1. Create the Blog List Item (Card)
+                const listItem = document.createElement('div');
+                listItem.className = 'blog-item';
+                listItem.setAttribute('data-post', postId);
+                listItem.innerHTML = `
+                    <h3>${postData.title}</h3>
+                    <p class="description">${postData.description}</p>
+                    <div class="date">${postData.date}</div>
+                `;
+                blogListContainer.appendChild(listItem);
+
+                // 2. Create the Full Blog Post View
+                const postView = document.createElement('div');
+                postView.className = 'blog-post';
+                postView.id = postId; // Use the key as the ID
+                postView.innerHTML = `
+                    <button class="back-button">← back to all posts</button>
+                    <div class="blog-content"></div>
+                `;
+                blogPostsContainer.appendChild(postView);
+
+                // 3. Render Markdown content and highlight code
+                const postContent = postView.querySelector('.blog-content');
+                postContent.innerHTML = marked.parse(postData.markdown);
+                postContent.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            });
+        }
+
+        // Run the generation function immediately
+        generateBlogPosts();
+
+        // --- Event Listeners for Dynamic Content ---
+        // Recalculate node lists for the newly created elements
+        const blogItems = document.querySelectorAll('.blog-item');
+        const blogPostViews = document.querySelectorAll('.blog-post');
+        const backButtons = document.querySelectorAll('.back-button');
+        const blogListView = document.querySelector('.blog-list-view');
+
+        // Attach click listeners to the dynamically created blog items
+        blogItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const postId = item.getAttribute('data-post');
+                blogListView.style.display = 'none';
+                document.getElementById(postId).classList.add('active');
+            });
+        });
+
+        // Attach click listeners to the dynamically created back buttons
+        backButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                blogListView.style.display = 'block';
+                blogPostViews.forEach(post => {
+                    post.classList.remove('active');
+                });
             });
         });
     </script>
