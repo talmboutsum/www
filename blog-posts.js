@@ -1,31 +1,18 @@
 const blogPosts = {
-    "getting-started-with-c": { // Use a slug-like key
-        title: "Getting Started with C Programming",
+    "cool-post": {
+        title: "cool-post",
         date: "October 9, 2025",
-        description: "A beginner's guide to setting up your environment and writing your first C program.",
-        markdown: `# Getting Started with C Programming
-
-C is a powerful, general-purpose programming language.
-
-## Setup
-
-Here's how to get started...
+        description: "cool post about cool things",
+        markdown: `# How to be cool?
+### just be like xander
+why tho?
+- he is cool
+- he is generally cool
+- he is indian
+- he is the bar harbour pisser
+<br>
+<br>
+thanks for reading my cool post
 `
     },
-    "understanding-memory-allocation": {
-        title: "Understanding Memory Allocation",
-        date: "October 5, 2025",
-        description: "An overview of stack vs. heap and dynamic memory allocation in low-level programming.",
-        markdown: `# Understanding Memory Allocation
-
-In low-level programming, memory management is key.
-
-\`\`\`c
-int *ptr = (int*)malloc(sizeof(int));
-free(ptr);
-\`\`\`
-
-More content about memory...
-`
-    }
 };
