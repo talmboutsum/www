@@ -38,7 +38,7 @@ jobs:
           test -f build-blog.js && echo "build-blog.js exists" || echo "build-blog.js NOT found"
           
       - name: Build blog posts
-        run: node build-blog.js
+        run: node build-blogs.js
         
       - name: Commit and push if changed
         run: |
