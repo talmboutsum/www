@@ -15,9 +15,9 @@
             <div class="logo">pita</div>
             <div class="nav-wrapper">
                 <div class="nav-links">
-                    <button class="nav-btn active" data-tab="home">home</button>
-                    <button class="nav-btn" data-tab="projects">projects</button>
-                    <button class="nav-btn" data-tab="blog">writings</button>
+                    <a href="#home" class="nav-btn active" data-tab="home">home</a>
+                    <a href="#projects" class="nav-btn" data-tab="projects">projects</a>
+                    <a href="#blog" class="nav-btn" data-tab="blog">writings</a>
                 </div>
                 <div class="theme-toggle-wrapper">
                     <button class="theme-toggle">
@@ -71,122 +71,17 @@
                 <div class="blog-list-view">
                     <h1>writings</h1>
                     <div class="blog-list" id="blog-list-container">
-                    </div>
+                        </div>
                 </div>
 
                 <div id="blog-posts-container">
-                </div>
+                    </div>
             </div>
         </main>
     </div>
 
     <script src="blog-posts.js"></script>
+    <script src="app.js"></script>
 
-    <script>
-        // Theme toggle
-        const themeToggle = document.querySelector('.theme-toggle');
-        const body = document.body;
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            body.setAttribute('data-theme', newTheme);
-        });
-
-        // Tab navigation
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabName = btn.getAttribute('data-tab');
-
-                navBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                });
-
-                document.getElementById(tabName).classList.add('active');
-
-                // Reset blog view when switching tabs
-                if (tabName === 'blog') {
-                    document.querySelector('.blog-list-view').style.display = 'block';
-                    // We now select dynamically generated posts
-                    document.querySelectorAll('#blog-posts-container .blog-post').forEach(post => {
-                        post.classList.remove('active');
-                    });
-                }
-            });
-        });
-
-        // --- Dynamic Blog Post Generation ---
-        const blogListContainer = document.getElementById('blog-list-container');
-        const blogPostsContainer = document.getElementById('blog-posts-container');
-
-        function generateBlogPosts() {
-            Object.keys(blogPosts).forEach(postId => {
-                const postData = blogPosts[postId];
-
-                // 1. Create the Blog List Item (Card)
-                const listItem = document.createElement('div');
-                listItem.className = 'blog-item';
-                listItem.setAttribute('data-post', postId);
-                listItem.innerHTML = `
-                    <h3>${postData.title}</h3>
-                    <p class="description">${postData.description}</p>
-                    <div class="date">${postData.date}</div>
-                `;
-                blogListContainer.appendChild(listItem);
-
-                // 2. Create the Full Blog Post View
-                const postView = document.createElement('div');
-                postView.className = 'blog-post';
-                postView.id = postId; // Use the key as the ID
-                postView.innerHTML = `
-                    <button class="back-button">← back to all posts</button>
-                    <div class="blog-content"></div>
-                `;
-                blogPostsContainer.appendChild(postView);
-
-                // 3. Render Markdown content and highlight code
-                const postContent = postView.querySelector('.blog-content');
-                postContent.innerHTML = marked.parse(postData.markdown);
-                postContent.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            });
-        }
-
-        // Run the generation function immediately
-        generateBlogPosts();
-
-        // --- Event Listeners for Dynamic Content ---
-        // Recalculate node lists for the newly created elements
-        const blogItems = document.querySelectorAll('.blog-item');
-        const blogPostViews = document.querySelectorAll('.blog-post');
-        const backButtons = document.querySelectorAll('.back-button');
-        const blogListView = document.querySelector('.blog-list-view');
-
-        // Attach click listeners to the dynamically created blog items
-        blogItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const postId = item.getAttribute('data-post');
-                blogListView.style.display = 'none';
-                document.getElementById(postId).classList.add('active');
-            });
-        });
-
-        // Attach click listeners to the dynamically created back buttons
-        backButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                blogListView.style.display = 'block';
-                blogPostViews.forEach(post => {
-                    post.classList.remove('active');
-                });
-            });
-        });
-    </script>
 </body>
 </html>

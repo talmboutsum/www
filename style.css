@@ -74,7 +74,8 @@ code, pre {
     flex-wrap: wrap;
 }
 
-.nav-links button {
+/* Updated selector to target both button and new a tag */
+.nav-links .nav-btn {
     background: none;
     border: none;
     color: var(--fg);
@@ -84,13 +85,14 @@ code, pre {
     font-family: 'Rubik', sans-serif;
     transition: opacity 0.2s;
     opacity: 0.6;
+    text-decoration: none; /* Add this for anchor tags */
 }
 
-.nav-links button:hover {
+.nav-links .nav-btn:hover {
     opacity: 1;
 }
 
-.nav-links button.active {
+.nav-links .nav-btn.active {
     opacity: 1;
     border-bottom: 1px solid var(--fg);
 }
@@ -151,12 +153,6 @@ main {
     margin-bottom: 3rem;
 }
 
-.hero h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.7rem;
-    font-weight: 600;
-}
-
 .hero p {
     font-size: 0.95rem;
     opacity: 0.8;
@@ -172,9 +168,10 @@ main {
     font-weight: 500;
 }
 
+/* --- PATCHED: Responsive Project Grid --- */
 .projects-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.2rem;
 }
 
@@ -218,16 +215,24 @@ main {
     gap: 0.8rem;
 }
 
+/* --- PATCHED: Blog Item Styling --- */
 .blog-item {
     border: 1px solid var(--border);
-    padding: 1.2rem;
-    cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
+    padding: 0; /* Padding moved to the link inside */
 }
 
 .blog-item:hover {
     background: var(--hover);
     border-color: var(--fg);
+}
+
+/* --- NEW: Styling for the clickable link area --- */
+.blog-item-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 1.2rem;
 }
 
 .blog-item h3 {
@@ -249,7 +254,9 @@ main {
     display: block;
 }
 
+/* --- PATCHED: Back button is now an anchor tag --- */
 .back-button {
+    display: inline-block; /* Make it behave like a button */
     background: none;
     border: none;
     border-bottom: 1px solid var(--border);
@@ -260,6 +267,7 @@ main {
     font-family: 'Rubik', sans-serif;
     transition: border-color 0.2s;
     font-size: 0.85rem;
+    text-decoration: none; /* Remove underline */
 }
 
 .back-button:hover {
@@ -321,7 +329,6 @@ main {
     margin-bottom: 0.4rem;
 }
 
-/* Custom syntax highlighting */
 .hljs {
     background: var(--code-bg);
     color: var(--fg);
