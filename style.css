@@ -31,10 +31,12 @@
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     background: var(--bg);
     color: var(--fg);
-    transition: background 0.3s, color 0.3s;
+    transition:
+        background 0.3s,
+        color 0.3s;
     line-height: 1.6;
     display: flex;
     justify-content: center;
@@ -42,8 +44,9 @@ body {
     padding: 3rem 2rem;
 }
 
-code, pre {
-    font-family: 'JetBrains Mono', monospace;
+code,
+pre {
+    font-family: "JetBrains Mono", monospace;
 }
 
 .container {
@@ -74,7 +77,6 @@ code, pre {
     flex-wrap: wrap;
 }
 
-/* Updated selector to target both button and new a tag */
 .nav-links .nav-btn {
     background: none;
     border: none;
@@ -82,10 +84,10 @@ code, pre {
     font-size: 0.9rem;
     cursor: pointer;
     padding: 0.3rem 0;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     transition: opacity 0.2s;
     opacity: 0.6;
-    text-decoration: none; /* Add this for anchor tags */
+    text-decoration: none;
 }
 
 .nav-links .nav-btn:hover {
@@ -168,7 +170,6 @@ main {
     font-weight: 500;
 }
 
-/* --- PATCHED: Responsive Project Grid --- */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -215,11 +216,62 @@ main {
     gap: 0.8rem;
 }
 
-/* --- PATCHED: Blog Item Styling --- */
+.category-section {
+    margin-bottom: 1.5rem;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.8rem 0;
+    user-select: none;
+    transition: opacity 0.2s;
+}
+
+.category-header:hover {
+    opacity: 0.7;
+}
+
+.category-toggle {
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+}
+
+.category-section.collapsed .category-toggle {
+    transform: rotate(-90deg);
+}
+
+.category-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.category-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    transition:
+        max-height 0.3s ease-out,
+        opacity 0.3s ease-out;
+}
+
+.category-section.collapsed .category-posts {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+}
+
 .blog-item {
     border: 1px solid var(--border);
-    transition: background 0.2s, border-color 0.2s;
-    padding: 0; /* Padding moved to the link inside */
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+    padding: 0;
 }
 
 .blog-item:hover {
@@ -227,7 +279,6 @@ main {
     border-color: var(--fg);
 }
 
-/* --- NEW: Styling for the clickable link area --- */
 .blog-item-link {
     display: block;
     text-decoration: none;
@@ -254,9 +305,8 @@ main {
     display: block;
 }
 
-/* --- PATCHED: Back button is now an anchor tag --- */
 .back-button {
-    display: inline-block; /* Make it behave like a button */
+    display: inline-block;
     background: none;
     border: none;
     border-bottom: 1px solid var(--border);
@@ -264,10 +314,10 @@ main {
     padding: 0.3rem 0.1rem;
     cursor: pointer;
     margin-bottom: 1.5rem;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     transition: border-color 0.2s;
     font-size: 0.85rem;
-    text-decoration: none; /* Remove underline */
+    text-decoration: none;
 }
 
 .back-button:hover {
@@ -319,7 +369,8 @@ main {
     font-size: 0.8rem;
 }
 
-.blog-content ul, .blog-content ol {
+.blog-content ul,
+.blog-content ol {
     margin-bottom: 0.9rem;
     padding-left: 1.5rem;
     font-size: 0.95rem;
