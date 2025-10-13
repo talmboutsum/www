@@ -7,3 +7,13 @@ why tho?
 - he is the bar harbour pisser
 
 thanks for reading my cool post
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    printf("Hello, World!\n");
+    return 0;
+}
+```
