@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const categoryHeader = document.createElement("div");
       categoryHeader.className = "category-header";
       categoryHeader.innerHTML = `
-                <span class="category-toggle">▼</span>
+                <span class="category-toggle">|</span>
                 <h2 class="category-title">${category}</h2>
             `;
 
