@@ -3,14 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-::-webkit-scrollbar {
-    display: block;
-    width: 10em;
-    overflow: auto;
-    height: 2em;
-    padding: 1em;
-    margin: 1em auto;
-    outline: 2px dashed cornflowerblue;
+
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: #0a4c95 #c2d2e4;
 }
 
 :root {
@@ -21,7 +17,7 @@
     --code-comment: #e09855;
     --code-keyword: #e8b563;
     --code-string: #a3c76f;
-    --code-function: #96a6c8;
+    --code-function: #83a5ba;
     --code-number: #9e95c7;
 }
 
@@ -33,7 +29,7 @@
     --code-comment: #e09855;
     --code-keyword: #e8b563;
     --code-string: #a3c76f;
-    --code-function: #96a6c8;
+    --code-function: #83a5ba;
     --code-number: #9e95c7;
 }
 
@@ -64,6 +60,28 @@ pre {
     border: 1px solid var(--fg);
     border-bottom: none;
     padding: 0.4rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copy-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    color: var(--fg);
+    transition: opacity 0.2s;
+}
+
+.copy-button:hover {
+    opacity: 1;
+}
+
+.copy-button svg {
+    display: block;
 }
 
 .container {

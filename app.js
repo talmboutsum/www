@@ -7,10 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const blogPostsContainer = document.getElementById("blog-posts-container");
   const blogListView = document.querySelector(".blog-list-view");
 
+  // Load saved theme on page load
+  const savedTheme = localStorage.getItem("theme") || "light";
+  body.setAttribute("data-theme", savedTheme);
+
   themeToggle.addEventListener("click", () => {
     const currentTheme = body.getAttribute("data-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
     body.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
   });
 
   function renderMath(element) {
@@ -102,8 +107,40 @@ document.addEventListener("DOMContentLoaded", () => {
               "Code";
             const header = document.createElement("div");
             header.className = "code-header";
-            header.textContent = lang.toUpperCase();
+            header.innerHTML = `
+              <span>${lang.toUpperCase()}</span>
+              <button class="copy-button" aria-label="Copy code">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            `;
             pre.parentElement.insertBefore(header, pre);
+
+            // Add copy functionality
+            const copyButton = header.querySelector(".copy-button");
+            copyButton.addEventListener("click", async () => {
+              const code = block.textContent;
+              try {
+                await navigator.clipboard.writeText(code);
+                copyButton.innerHTML = `
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                `;
+                setTimeout(() => {
+                  copyButton.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  `;
+                }, 2000);
+              } catch (err) {
+                console.error("Failed to copy code:", err);
+              }
+            });
           }
         });
 
