@@ -92,12 +92,21 @@ document.addEventListener("DOMContentLoaded", () => {
           postContent.innerHTML = marked.parse(postData.markdown);
         }
 
-        // Highlight code blocks
         postContent.querySelectorAll("pre code").forEach((block) => {
           hljs.highlightElement(block);
+          const pre = block.closest("pre");
+          if (!pre.previousElementSibling?.classList.contains("code-header")) {
+            const lang =
+              block.className.match(/language-(\w+)/)?.[1] ||
+              block.className.match(/hljs (\w+)/)?.[1] ||
+              "Code";
+            const header = document.createElement("div");
+            header.className = "code-header";
+            header.textContent = lang.toUpperCase();
+            pre.parentElement.insertBefore(header, pre);
+          }
         });
 
-        // Render math expressions
         renderMath(postContent);
       }
     }
