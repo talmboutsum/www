@@ -13,6 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
     body.setAttribute("data-theme", newTheme);
   });
 
+  function renderMath(element) {
+    if (typeof renderMathInElement !== "undefined") {
+      renderMathInElement(element, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false },
+        ],
+        throwOnError: false,
+      });
+    }
+  }
+
   async function generateBlogPosts() {
     blogListContainer.innerHTML = "";
     blogPostsContainer.innerHTML = "";
@@ -78,9 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
           postContent.innerHTML = marked.parse(postData.markdown);
         }
 
+        // Highlight code blocks
         postContent.querySelectorAll("pre code").forEach((block) => {
           hljs.highlightElement(block);
         });
+
+        // Render math expressions
+        renderMath(postContent);
       }
     }
   }
