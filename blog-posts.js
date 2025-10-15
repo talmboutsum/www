@@ -5,7 +5,7 @@ const blogPosts = {
             "date": "October 15, 2025",
             "description": "Read about first",
             "category": "math",
-            "markdown": "# first math thing/ test\n\n$$\n\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}\n$$\n"
+            "markdown": "# first math thing/ test\n\n$$\n\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}\n$$\nyes\n"
         },
         "second": {
             "title": "Second",
