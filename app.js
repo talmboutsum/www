@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const blogPostsContainer = document.getElementById("blog-posts-container");
   const blogListView = document.querySelector(".blog-list-view");
 
-  const savedTheme = localStorage.getItem("theme") || "light";
+  const savedTheme = sessionStorage.getItem("theme") || "dark";
   body.setAttribute("data-theme", savedTheme);
 
   themeToggle.addEventListener("click", () => {
     const currentTheme = body.getAttribute("data-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
     body.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
+    sessionStorage.setItem("theme", newTheme);
   });
 
   function renderMath(element) {
@@ -35,116 +35,115 @@ document.addEventListener("DOMContentLoaded", () => {
     blogListContainer.innerHTML = "";
     blogPostsContainer.innerHTML = "";
 
+    const treeDiv = document.createElement("div");
+    treeDiv.className = "blog-tree";
+
     for (const category of Object.keys(blogPosts)) {
-      const categorySection = document.createElement("div");
-      categorySection.className = "category-section";
-      categorySection.dataset.category = category;
+      const categoryFolder = document.createElement("div");
+      categoryFolder.className = "tree-folder";
+      categoryFolder.textContent = category;
 
-      const categoryHeader = document.createElement("div");
-      categoryHeader.className = "category-header";
-      categoryHeader.innerHTML = `
-                <span class="category-toggle">|</span>
-                <h2 class="category-title">${category}</h2>
-            `;
+      const categoryChildren = document.createElement("div");
+      categoryChildren.className = "tree-children";
 
-      const categoryPostsContainer = document.createElement("div");
-      categoryPostsContainer.className = "category-posts";
+      treeDiv.appendChild(categoryFolder);
+      treeDiv.appendChild(categoryChildren);
 
-      categoryHeader.addEventListener("click", () => {
-        categorySection.classList.toggle("collapsed");
+      categoryFolder.addEventListener("click", (e) => {
+        e.stopPropagation();
+        categoryFolder.classList.toggle("collapsed");
       });
 
-      categorySection.appendChild(categoryHeader);
-      categorySection.appendChild(categoryPostsContainer);
-      blogListContainer.appendChild(categorySection);
-
-      for (const postId of Object.keys(blogPosts[category])) {
+      const posts = Object.keys(blogPosts[category]);
+      posts.forEach((postId) => {
         const postData = blogPosts[category][postId];
 
-        const listItem = document.createElement("div");
-        listItem.className = "blog-item";
-        listItem.innerHTML = `
-                    <a href="#blog/${category}/${postId}" class="blog-item-link">
-                        <h3>${postData.title}</h3>
-                        <p class="description">${postData.description}</p>
-                        <div class="date">${postData.date}</div>
-                    </a>
-                `;
-        categoryPostsContainer.appendChild(listItem);
+        const fileItem = document.createElement("div");
+        fileItem.className = "tree-file";
+        fileItem.innerHTML = `<a href="#blog/${category}/${postId}">${postId}</a>`;
+
+        categoryChildren.appendChild(fileItem);
 
         const postView = document.createElement("div");
         postView.className = "blog-post";
         postView.id = `${category}-${postId}`;
         postView.innerHTML = `
-                    <a href="#blog" class="back-button">← back to all posts</a>
-                    <div class="blog-content"></div>
-                `;
+          <a href="#blog" class="back-button">← back to all posts</a>
+          <div class="blog-content"></div>
+        `;
         blogPostsContainer.appendChild(postView);
 
         const postContent = postView.querySelector(".blog-content");
 
         if (postData.markdownFile) {
-          try {
-            const response = await fetch(`writings/${postData.markdownFile}`);
-            const markdown = await response.text();
-            postContent.innerHTML = marked.parse(markdown);
-          } catch (error) {
-            postContent.innerHTML = "<p>Error loading post content.</p>";
-            console.error("Error loading markdown file:", error);
-          }
+          fetch(`writings/${postData.markdownFile}`)
+            .then((response) => response.text())
+            .then((markdown) => {
+              postContent.innerHTML = marked.parse(markdown);
+              setupCodeBlocks(postContent);
+              renderMath(postContent);
+            })
+            .catch((error) => {
+              postContent.innerHTML = "<p>Error loading post content.</p>";
+              console.error("Error loading markdown file:", error);
+            });
         } else if (postData.markdown) {
           postContent.innerHTML = marked.parse(postData.markdown);
+          setupCodeBlocks(postContent);
+          renderMath(postContent);
         }
+      });
+    }
 
-        postContent.querySelectorAll("pre code").forEach((block) => {
-          hljs.highlightElement(block);
-          const pre = block.closest("pre");
-          if (!pre.previousElementSibling?.classList.contains("code-header")) {
-            const lang =
-              block.className.match(/language-(\w+)/)?.[1] ||
-              block.className.match(/hljs (\w+)/)?.[1] ||
-              "Code";
-            const header = document.createElement("div");
-            header.className = "code-header";
-            header.innerHTML = `
-              <span>${lang.toUpperCase()}</span>
-              <button class="copy-button" aria-label="Copy code">
+    blogListContainer.appendChild(treeDiv);
+  }
+
+  function setupCodeBlocks(container) {
+    container.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightElement(block);
+      const pre = block.closest("pre");
+      if (!pre.previousElementSibling?.classList.contains("code-header")) {
+        const lang =
+          block.className.match(/language-(\w+)/)?.[1] ||
+          block.className.match(/hljs (\w+)/)?.[1] ||
+          "Code";
+        const header = document.createElement("div");
+        header.className = "code-header";
+        header.innerHTML = `
+          <span>${lang.toUpperCase()}</span>
+          <button class="copy-button" aria-label="Copy code">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        `;
+        pre.parentElement.insertBefore(header, pre);
+
+        const copyButton = header.querySelector(".copy-button");
+        copyButton.addEventListener("click", async () => {
+          const code = block.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            copyButton.innerHTML = `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            `;
+            setTimeout(() => {
+              copyButton.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-              </button>
-            `;
-            pre.parentElement.insertBefore(header, pre);
-
-            const copyButton = header.querySelector(".copy-button");
-            copyButton.addEventListener("click", async () => {
-              const code = block.textContent;
-              try {
-                await navigator.clipboard.writeText(code);
-                copyButton.innerHTML = `
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                `;
-                setTimeout(() => {
-                  copyButton.innerHTML = `
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  `;
-                }, 2000);
-              } catch (err) {
-                console.error("Failed to copy code:", err);
-              }
-            });
+              `;
+            }, 2000);
+          } catch (err) {
+            console.error("Failed to copy code:", err);
           }
         });
-
-        renderMath(postContent);
       }
-    }
+    });
   }
 
   function handleRouteChange() {
