@@ -38,63 +38,67 @@ document.addEventListener("DOMContentLoaded", () => {
     const treeDiv = document.createElement("div");
     treeDiv.className = "blog-tree";
 
-    for (const category of Object.keys(blogPosts)) {
-      const categoryFolder = document.createElement("div");
-      categoryFolder.className = "tree-folder";
-      categoryFolder.textContent = category;
+    function createTree(parent, data, parentPath = "") {
+      for (const key in data) {
+        const value = data[key];
+        if (
+          typeof value === "object" &&
+          !value.markdown &&
+          !value.markdownFile
+        ) {
+          const folder = document.createElement("div");
+          folder.className = "tree-folder";
+          folder.textContent = key;
 
-      const categoryChildren = document.createElement("div");
-      categoryChildren.className = "tree-children";
+          const children = document.createElement("div");
+          children.className = "tree-children";
 
-      treeDiv.appendChild(categoryFolder);
-      treeDiv.appendChild(categoryChildren);
+          folder.addEventListener("click", (e) => {
+            e.stopPropagation();
+            folder.classList.toggle("collapsed");
+          });
 
-      categoryFolder.addEventListener("click", (e) => {
-        e.stopPropagation();
-        categoryFolder.classList.toggle("collapsed");
-      });
+          parent.appendChild(folder);
+          parent.appendChild(children);
+          createTree(children, value, `${parentPath}/${key}`);
+        } else {
+          const fileItem = document.createElement("div");
+          fileItem.className = "tree-file";
+          fileItem.innerHTML = `<a href="#blog${parentPath}/${key}">${key}</a>`;
+          parent.appendChild(fileItem);
 
-      const posts = Object.keys(blogPosts[category]);
-      posts.forEach((postId) => {
-        const postData = blogPosts[category][postId];
+          const postView = document.createElement("div");
+          postView.className = "blog-post";
+          postView.id = `${parentPath.replace(/^\//, "").replace(/\//g, "-")}-${key}`;
+          postView.innerHTML = `
+            <a href="#blog" class="back-button">← back to all posts</a>
+            <div class="blog-content"></div>
+          `;
+          blogPostsContainer.appendChild(postView);
 
-        const fileItem = document.createElement("div");
-        fileItem.className = "tree-file";
-        fileItem.innerHTML = `<a href="#blog/${category}/${postId}">${postId}</a>`;
+          const postContent = postView.querySelector(".blog-content");
 
-        categoryChildren.appendChild(fileItem);
-
-        const postView = document.createElement("div");
-        postView.className = "blog-post";
-        postView.id = `${category}-${postId}`;
-        postView.innerHTML = `
-          <a href="#blog" class="back-button">← back to all posts</a>
-          <div class="blog-content"></div>
-        `;
-        blogPostsContainer.appendChild(postView);
-
-        const postContent = postView.querySelector(".blog-content");
-
-        if (postData.markdownFile) {
-          fetch(`writings/${postData.markdownFile}`)
-            .then((response) => response.text())
-            .then((markdown) => {
-              postContent.innerHTML = marked.parse(markdown);
-              setupCodeBlocks(postContent);
-              renderMath(postContent);
-            })
-            .catch((error) => {
-              postContent.innerHTML = "<p>Error loading post content.</p>";
-              console.error("Error loading markdown file:", error);
-            });
-        } else if (postData.markdown) {
-          postContent.innerHTML = marked.parse(postData.markdown);
-          setupCodeBlocks(postContent);
-          renderMath(postContent);
+          if (value.markdownFile) {
+            fetch(`writings/${value.markdownFile}`)
+              .then((response) => response.text())
+              .then((markdown) => {
+                postContent.innerHTML = marked.parse(markdown);
+                setupCodeBlocks(postContent);
+                renderMath(postContent);
+              })
+              .catch(() => {
+                postContent.innerHTML = "<p>Error loading post content.</p>";
+              });
+          } else if (value.markdown) {
+            postContent.innerHTML = marked.parse(value.markdown);
+            setupCodeBlocks(postContent);
+            renderMath(postContent);
+          }
         }
-      });
+      }
     }
 
+    createTree(treeDiv, blogPosts);
     blogListContainer.appendChild(treeDiv);
   }
 
@@ -138,9 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </svg>
               `;
             }, 2000);
-          } catch (err) {
-            console.error("Failed to copy code:", err);
-          }
+          } catch {}
         });
       }
     });
@@ -150,27 +152,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const hash = window.location.hash || "#home";
     const parts = hash.substring(1).split("/");
     const mainRoute = parts[0];
-    const category = parts[1];
-    const postId = parts[2];
-
+    const path = parts.slice(1).join("-");
     navBtns.forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.tab === mainRoute);
     });
-
     tabContents.forEach((content) => {
       content.classList.toggle("active", content.id === mainRoute);
     });
-
     if (mainRoute === "blog") {
       document
         .querySelectorAll(".blog-post")
         .forEach((p) => p.classList.remove("active"));
-      if (category && postId) {
+      if (path) {
         blogListView.style.display = "none";
-        const activePost = document.getElementById(`${category}-${postId}`);
-        if (activePost) {
-          activePost.classList.add("active");
-        }
+        const activePost = document.getElementById(path);
+        if (activePost) activePost.classList.add("active");
       } else {
         blogListView.style.display = "block";
       }
@@ -178,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("hashchange", handleRouteChange);
-
   generateBlogPosts();
   handleRouteChange();
 });
