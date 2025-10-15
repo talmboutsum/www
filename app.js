@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const blogPostsContainer = document.getElementById("blog-posts-container");
   const blogListView = document.querySelector(".blog-list-view");
 
-  // Load saved theme on page load
   const savedTheme = localStorage.getItem("theme") || "light";
   body.setAttribute("data-theme", savedTheme);
 
@@ -118,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             pre.parentElement.insertBefore(header, pre);
 
-            // Add copy functionality
             const copyButton = header.querySelector(".copy-button");
             copyButton.addEventListener("click", async () => {
               const code = block.textContent;
