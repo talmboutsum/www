@@ -1,5 +1,6 @@
 ```c
 #define B 0
+
 int main()
 {
     return B;

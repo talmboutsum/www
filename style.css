@@ -44,20 +44,28 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    padding: 3rem 2rem;
+    padding-top: 2rem;
+    scrollbar-width: none;
+}
+.hide-scrollbar {
+    overflow: auto;
+    -ms-overflow-style: none; /* IE 11 */
+    scrollbar-width: none; /* Firefox 64 */
 }
 
 code,
 pre {
+    counter-increment: line;
     font-family: "JetBrains Mono", monospace;
+    display: block;
 }
 
 .code-header {
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 450;
     color: var(--fg);
-    background: var(--bg);
-    border: 1px solid var(--fg);
+    background: var(--hover);
+    border: 0px solid var(--fg);
     border-bottom: none;
     padding: 0.4rem 0.75rem;
     display: flex;
@@ -87,6 +95,10 @@ pre {
 .container {
     max-width: 850px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
 .header {
     margin-bottom: 3rem;
@@ -173,6 +185,7 @@ pre {
 
 main {
     width: 100%;
+    flex: 1;
 }
 .tab-content {
     display: none;
@@ -186,7 +199,7 @@ main {
 }
 .hero p {
     font-size: 0.95rem;
-    opacity: 0.8;
+    opacity: 1;
 }
 .section {
     margin-bottom: 3rem;
@@ -197,29 +210,41 @@ main {
     font-weight: 500;
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.2rem;
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
-.project-card {
-    border: 1px solid var(--border);
-    padding: 1.2rem;
+
+.project-item {
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
     transition: border-color 0.2s;
 }
-.project-card:hover {
-    border-color: var(--fg);
+
+.project-item:hover {
+    border-left-color: var(--fg);
 }
-.project-card h3 {
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.project-item h3 {
     font-size: 1.1rem;
-    margin-bottom: 0.4rem;
     font-weight: 500;
 }
-.project-card p {
-    opacity: 0.8;
-    margin-bottom: 0.8rem;
+
+.project-item p {
+    opacity: 0.7;
     font-size: 0.9rem;
+    line-height: 1.6;
 }
+
 .project-link {
     color: var(--fg);
     text-decoration: none;
@@ -333,11 +358,10 @@ main {
 }
 
 .blog-content pre {
-    background: var(--bg);
+    background: var(--hover);
     padding: 1.2rem;
     overflow-x: auto;
     margin: 0rem 0;
-    border: 1px solid var(--fg);
 }
 
 .blog-content code {
@@ -362,7 +386,7 @@ main {
 }
 
 .hljs {
-    background: var(--bg);
+    background: var(--hover);
     color: var(--fg);
     padding: 0.5rem;
 }
@@ -429,4 +453,26 @@ a {
 }
 .blog-content .katex-display {
     text-align: center;
+}
+
+footer {
+    bottom: 0;
+    width: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.footer a {
+    color: inherit;
+    padding-top: 0;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    opacity: 1;
 }
