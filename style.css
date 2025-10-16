@@ -92,9 +92,18 @@ pre {
     margin-bottom: 3rem;
 }
 .logo {
-    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 3px;
+}
+.logo-image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    margin-bottom: 3px;
 }
 
 .nav-wrapper {
@@ -386,6 +395,11 @@ h1 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 .katex {
