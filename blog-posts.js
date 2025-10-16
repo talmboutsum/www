@@ -12,7 +12,7 @@ const blogPosts = {
             "title": "Test1",
             "date": "October 16, 2025",
             "description": "Read about test1",
-            "markdown": "```c\n#define B 0\nint main()\n{\n    return B;\n}\n```\n\n$$\n\\f\\relax{x} = \\int_{-\\infty}^\\infty\n    \\f\\hat\\xi\\,e^{2 \\pi i \\xi x}\n    \\,d\\xi\n$$\n"
+            "markdown": "```c\n#define B 0\n\nint main()\n{\n    return B;\n}\n```\n\n$$\n\\f\\relax{x} = \\int_{-\\infty}^\\infty\n    \\f\\hat\\xi\\,e^{2 \\pi i \\xi x}\n    \\,d\\xi\n$$\n"
         }
     }
 };
