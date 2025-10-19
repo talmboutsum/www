@@ -64,14 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           const fileItem = document.createElement("div");
           fileItem.className = "tree-file";
-          fileItem.innerHTML = `<a href="#blog${parentPath}/${key}">${key}</a>`;
+          fileItem.innerHTML = `<a href="/blog${parentPath}/${key}" class="blog-link">${key}</a>`;
           parent.appendChild(fileItem);
 
           const postView = document.createElement("div");
           postView.className = "blog-post";
           postView.id = `${parentPath.replace(/^\//, "").replace(/\//g, "-")}-${key}`;
           postView.innerHTML = `
-            <a href="#blog" class="back-button">← back to all posts</a>
+            <a href="/blog" class="back-button">← back to all posts</a>
             <div class="blog-content"></div>
           `;
           blogPostsContainer.appendChild(postView);
@@ -100,6 +100,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createTree(treeDiv, blogPosts);
     blogListContainer.appendChild(treeDiv);
+
+    blogListContainer.querySelectorAll(".blog-link").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const url = link.getAttribute("href");
+        history.pushState(null, "", url);
+        handleRouteChange();
+      });
+    });
+
+    blogPostsContainer.querySelectorAll(".back-button").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        history.pushState(null, "", "/blog");
+        handleRouteChange();
+      });
+    });
   }
 
   function setupCodeBlocks(container) {
@@ -149,20 +166,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleRouteChange() {
-    const hash = window.location.hash || "#home";
-    const parts = hash.substring(1).split("/");
+    const pathName = window.location.pathname;
+    const parts =
+      pathName === "/" ? ["home"] : pathName.substring(1).split("/");
+
     const mainRoute = parts[0];
     const path = parts.slice(1).join("-");
+
     navBtns.forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.tab === mainRoute);
     });
     tabContents.forEach((content) => {
       content.classList.toggle("active", content.id === mainRoute);
     });
+
     if (mainRoute === "blog") {
       document
         .querySelectorAll(".blog-post")
         .forEach((p) => p.classList.remove("active"));
+
       if (path) {
         blogListView.style.display = "none";
         const activePost = document.getElementById(path);
@@ -170,10 +192,23 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         blogListView.style.display = "block";
       }
+    } else {
+      blogListView.style.display = "block";
     }
   }
 
-  window.addEventListener("hashchange", handleRouteChange);
+  navBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = btn.dataset.tab;
+      const url = target === "home" ? "/" : `/${target}`;
+      history.pushState(null, "", url);
+      handleRouteChange();
+    });
+  });
+
+  window.addEventListener("popstate", handleRouteChange);
+
   generateBlogPosts();
   handleRouteChange();
 });
