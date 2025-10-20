@@ -47,8 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function createTree(parent, data, parentPath = "") {
       for (const key in data) {
         const value = data[key];
-        if (typeof value === "object" && !value.markdown && !value.markdownFile) {
-          // folder
+        if (
+          typeof value === "object" &&
+          !value.markdown &&
+          !value.markdownFile
+        ) {
           const folder = document.createElement("div");
           folder.className = "tree-folder";
           folder.textContent = key;
@@ -65,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
           parent.appendChild(children);
           createTree(children, value, `${parentPath}/${key}`);
         } else {
-          // file
           const fileItem = document.createElement("div");
           fileItem.className = "tree-file";
           const postUrl = `/blog${parentPath}/${key}`;
@@ -75,8 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const postView = document.createElement("div");
           postView.className = "blog-post";
 
-          // PATCH: keep slashes in postId to match URL
-          const postId = (`${parentPath}/${key}`).replace(/^\//, "");
+          const postId = `${parentPath}/${key}`.replace(/^\//, "");
           postView.id = postId;
 
           postView.innerHTML = `
@@ -176,7 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleRouteChange() {
     const pathName = window.location.pathname;
-    const parts = pathName === "/" ? ["home"] : pathName.substring(1).split("/");
+    const parts =
+      pathName === "/" ? ["home"] : pathName.substring(1).split("/");
 
     const mainRoute = parts[0];
 
@@ -188,9 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (mainRoute === "blog") {
-      document.querySelectorAll(".blog-post").forEach((p) => p.classList.remove("active"));
+      document
+        .querySelectorAll(".blog-post")
+        .forEach((p) => p.classList.remove("active"));
 
-      const postPath = pathName.replace("/blog/", ""); // e.g., tests/test1
+      const postPath = pathName.replace("/blog/", "");
       if (postPath && document.getElementById(postPath)) {
         blogListView.style.display = "none";
         document.getElementById(postPath).classList.add("active");
