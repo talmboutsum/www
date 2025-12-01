@@ -142,15 +142,13 @@ pre {
 }
 .nav-links .nav-btn:hover {
     opacity: 1;
-    background-color: var(--hover);
-    border-radius: 8px;
+    text-decoration: underline;
 }
 .nav-links .nav-btn.active {
     opacity: 1;
-    background-color: var(--abg);
     padding-left: 5px;
     padding-right: 5px;
-    border-radius: 8px;
+    text-decoration: underline;
 }
 
 .theme-toggle {
@@ -164,7 +162,6 @@ pre {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
 }
 .theme-toggle:hover {
     background: var(--hover);
