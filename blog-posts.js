@@ -4,7 +4,7 @@ const blogPosts = {
             "title": "Test",
             "date": "December 1, 2025",
             "description": "Read about test",
-            "markdown": "\\f\\relax{x} = \\int_{-\\infty}^\\infty\n    \\f\\hat\\xi\\,e^{2 \\pi i \\xi x}\n    \\,d\\xi\n"
+            "markdown": "$$\n\\f\\relax{x} = \\int_{-\\infty}^\\infty\n    \\f\\hat\\xi\\,e^{2 \\pi i \\xi x}\n    \\,d\\xi\n$$\n"
         }
     },
     "personal": {
